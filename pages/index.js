@@ -1,65 +1,69 @@
-import Head from 'next/head'
+import React from 'react'
 import styles from '../styles/Home.module.css'
+import axios from 'axios'
+import Router from 'next/router'
+import { Container } from '@chakra-ui/react'
+import Layout from '../components/layout'
+import jwt from 'jsonwebtoken'
+import Event from '../components/event'
 
-export default function Home() {
+const page = {
+  title : 'Home',
+  desc : 'This is home page',
+  canonical: 'https://eventer.gg'
+}
+
+export default function Home({ events, user }) {
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+    <Layout page = { page } user = { user } > 
+      <Container mt='25px'>
+          { events.map( (e, index) => {
+              return (
+                <Event key = { index } event = { e } userId = {user.id} myEvents = {false} />
+              )
+            })
+          }
+      </Container>
+    </Layout>
   )
+}
+
+export async function getServerSideProps(ctx) {
+
+  const cookie = ctx.req.headers.cookie
+  
+  try {
+
+    const user = jwt.verify(cookie.substr(5), 'aeeac1db-b898-4f93-9fc4-51b4ee770dfc') 
+    const resp = await axios.get( 'http://localhost:3000/api/events', {
+      headers:{
+        cookie: cookie
+      }
+    })
+  
+    if ( resp.status === '401' && !ctx.req ){
+      Router.replace('/login')
+      return
+    }
+    else if ( resp.status === '401' && ctx.req ){
+      ctx.res.writeHead( 302, { Location: '/login' } )
+      ctx.res.end()
+      return
+    }
+    else {
+      const json = await resp.data.data
+      return { props : { events : json, user: user } }
+    }
+
+  } catch (error) {
+    console.dir(error)
+    return {
+      redirect: {
+          destination: '/login',
+          statusCode: 307
+      }
+    }
+
+  }
 }
