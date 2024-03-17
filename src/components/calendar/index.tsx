@@ -10,7 +10,7 @@ import { useDisclosure } from '@nextui-org/react'
 import { useState } from 'react'
 import dayjs from 'dayjs'
 
-export default function Calendar({ categories } : { categories : { title: string }[] | null }) {
+export default function Calendar({ categories } : { categories : { title: string }[] }) {
 
     const { isOpen, onClose, onOpen } = useDisclosure()
 

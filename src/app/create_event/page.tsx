@@ -39,7 +39,7 @@ export default async function createEvent() {
 
         <div className="bg-[radial-gradient(circle_at_50%_-30%,rgb(144,17,105)_20%,rgb(0,0,0)_70%)]">
             <Navbar userData={ currentUserInfo } />
-            <Calendar categories={categoriesData} />
+            <Calendar categories={categoriesData === null ? [] : categoriesData} />
         </div>
 
     )

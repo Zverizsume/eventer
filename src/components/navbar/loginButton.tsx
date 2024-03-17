@@ -23,6 +23,10 @@ const links = [
         key: 'profile',
         href: '/profile',
     },
+    {
+        title: 'Logaout',
+        key: 'logout',
+    },
 
 ]
 
@@ -77,12 +81,36 @@ export default function LoginButton({ userData } : { userData : User | null }) {
                     />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
+                    
                     {
-                        links.map( link => (<DropdownItem as={Link} key={link.key} href={link.href}>{link.title}</DropdownItem>))
+
+                        links.map( link => {
+
+                            if( link.title === 'Logout' ) {
+
+                                return(
+
+
+                                    <DropdownItem key={link.key} className="text-danger" color="danger" onClick={handleLogout} >
+                                        {link.title}
+                                    </DropdownItem>
+
+                                )
+
+                            }
+
+                            return(
+
+                                <DropdownItem as={Link} key={link.key} href={link.href}>
+                                    {link.title}
+                                </DropdownItem>
+
+                            )
+
+                        })
+
                     }
-                    <DropdownItem key="logout" className="text-danger" color="danger" onClick={handleLogout} >
-                        Logout
-                    </DropdownItem>
+
                 </DropdownMenu>
             </Dropdown>
 
