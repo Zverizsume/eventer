@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server"
 import dayjs from "dayjs"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
-import { z } from 'zod'
+import { unknown, z } from 'zod'
 
 const minEventLength = 1 // in hours
 
@@ -124,46 +124,22 @@ export async function createEvent( formState : CreateEventFormState, formData : 
 
     let event : EventObject
     
-    try{
+    const { data : insertData, error : insertError, status, statusText } = await supabase.from('event').insert(newEvent).select()
 
-        const { data, error, status, statusText } = await supabase.from('event').insert(newEvent).select()
+    if( insertError )
+    {
 
-        // console.log('Status: ', statusText)
+        return{
+            errors: {
 
-        event = data[0]
-
-    } catch ( error : unknown ) {
-
-        if( error instanceof Error ) {
-
-            console.log('Error: ', error)
-
-            return{
-                errors: {
-
-                    _form: [error.message]
-
-                }
-            }
-
-        }
-        else {
-
-            console.log('Error: ', error)
-
-            return {
-
-                errors: {
-
-                    _form:['Something went wrong, please try again']
-
-                }
+                _form: [insertError.message]
 
             }
-
         }
 
     }
+
+    event = insertData[0]
 
     revalidatePath('/events')
     redirect(`/events/${event.id}`)
