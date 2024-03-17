@@ -73,7 +73,7 @@ export default function LoginModal() {
                                 <Button
                                     className="w-full"
                                     onClick={() => loginWithGoogle()}
-                                    startContent={<Image src={'./icons/google.png'} alt={'google'} width={'30px'} />}
+                                    startContent={<Image src={'/icons/google.png'} alt={'google'} width={'30px'} />}
                                 >
                                     With Google
                                 </Button>
@@ -122,7 +122,7 @@ export default function LoginModal() {
                                 <Button
                                     className="w-full"
                                     onClick={() => loginWithGoogle()}
-                                    startContent={<Image src={'./icons/google.png'} alt={'google'} width={'30px'} />}
+                                    startContent={<Image src={'/icons/google.png'} alt={'google'} width={'30px'} />}
                                 >
                                     With Google
                                 </Button>

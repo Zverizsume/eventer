@@ -54,7 +54,7 @@ export default function RegisterModal({open} : {open : boolean}) {
                             <Button
                                 className="w-full"
                                 onClick={() => loginWithGoogle()}
-                                startContent={<Image src={'./icons/google.png'} width={'30px'} />}
+                                startContent={<Image src={'/icons/google.png'} width={'30px'} />}
                             >
                                 With Google
                             </Button>
