@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Eventer App
+
+Eventer is a web application built using Next.js and Supabase, designed to manage and organize events efficiently. Whether you're planning a conference, a workshop, or a small get-together, Eventer provides the tools you need to create, manage, and share events seamlessly.
+
+## Features
+
+- **Event Creation**: Easily create new events with details such as title, description, date, time, and location.
+- **Event Management**: Edit or delete events as needed. Keep track of attendees and manage RSVPs effortlessly.
+- **User Authentication**: Secure user authentication powered by Supabase ensures that only authorized users can create or manage events.
+- **Real-time Updates**: Enjoy real-time updates on event details and attendee lists, ensuring everyone stays informed.
+- **Responsive Design**: The application is designed to work seamlessly across various devices, from desktops to mobile phones.
+
+## Technologies Used
+
+- **Next.js**: Next.js is a React framework for building server-side rendered and statically generated web applications. It offers features like automatic code splitting, hot code reloading, and server-side rendering.
+- **Supabase**: Supabase is an open-source Firebase alternative that provides a suite of tools for building scalable applications with features like real-time database, authentication, and more.
 
 ## Getting Started
 
-First, run the development server:
+To run Eventer locally, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Clone the repository:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```
+   git clone https://github.com/Zverizsume/eventer.git
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. Navigate to the project directory:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```
+   cd eventer
+   ```
 
-## Learn More
+3. Install dependencies:
 
-To learn more about Next.js, take a look at the following resources:
+   ```
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Create a Supabase project and obtain your API URL and public key.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+5. Create a `.env.local` file in the root directory and add your Supabase credentials:
 
-## Deploy on Vercel
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-api-url
+   NEXT_PUBLIC_SUPABASE_KEY=your-supabase-public-key
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+6. Run the development server:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```
+   npm run dev
+   ```
+
+7. Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
+
+## Contributing
+
+Contributions are welcome! If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+- **Next.js**: [https://nextjs.org/](https://nextjs.org/)
+- **Supabase**: [https://supabase.io/](https://supabase.io/)
+
+## Contact
+
+For inquiries or support, feel free to contact us at [zeliranje@gmail.com](mailto:zeliranje@gmail.com).
