@@ -28,9 +28,9 @@ export default async function Home() {
         <section>
           <div className="container max-w-screen-xl text-center">
             <p>
-              Do you crave unforgettable experiences, thrilling adventures, or simply connecting with like-minded individuals? Look no further, because Eventer has got you covered!
+              {`Do you crave unforgettable experiences, thrilling adventures, or simply connecting with like-minded individuals? Look no further, because Eventer has got you covered!`}
             </p>
-            <p>Whether you're an event organizer or an enthusiastic attendee, our app offers a seamless platform to create, discover, and attend a diverse range of events.</p>
+            <p>{`Whether you're an event organizer or an enthusiastic attendee, our app offers a seamless platform to create, discover, and attend a diverse range of events.`}</p>
           </div>
         </section>
 

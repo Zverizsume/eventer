@@ -35,7 +35,7 @@ export default function GoogleMapObject({ markerLatLng, setMarkerLatLng } : { ma
 
     const mapCenter = useMemo<google.maps.LatLngLiteral>(
         () => ({ lat: centerLat, lng: centerLng }),
-        []
+        [centerLat, centerLng]
     )
 
     const mapOptions = useMemo<google.maps.MapOptions>(
@@ -100,7 +100,7 @@ export default function GoogleMapObject({ markerLatLng, setMarkerLatLng } : { ma
                         map={mapRef}
                         // icon="https://picsum.photos/64"
                     >
-                        <Image src={'/icons/locationPin.png'} height={'40px'} width={'40px'}/>
+                        <Image src={'/icons/locationPin.png'} height={'40px'} width={'40px'} alt={'location_pin'} />
                     </Marker>
 
                 : null

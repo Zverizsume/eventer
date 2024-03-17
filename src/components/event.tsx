@@ -20,31 +20,31 @@ import Countdown from "./countdown"
 import { useRouter } from "next/navigation"
 
 
-const eventTypeColors : EventTypeColors = {
+// const eventTypeColors : EventTypeColors = {
 
-    public: 'bg-gradient-to-r from-green-700 opacity-80',
-    private: 'bg-gradient-to-r from-red-700 opacity-80',
-    invite_only: 'bg-gradient-to-r from-yellow-400 opacity-80'
+//     public: 'bg-gradient-to-r from-green-700 opacity-80',
+//     private: 'bg-gradient-to-r from-red-700 opacity-80',
+//     invite_only: 'bg-gradient-to-r from-yellow-400 opacity-80'
 
-}
+// }
 
-const iconColors = {
+// const iconColors = {
 
-    public: 'green',
-    private: 'red',
-    invite_only: 'yellow'
+//     public: 'green',
+//     private: 'red',
+//     invite_only: 'yellow'
 
-}
+// }
 
-const textColors = {
+// const textColors = {
 
-    public: 'text-green-700',
-    private: 'text-red-600',
-    invite_only: 'text-yellow-300'
+//     public: 'text-green-700',
+//     private: 'text-red-600',
+//     invite_only: 'text-yellow-300'
 
-}
+// }
 
-const iconsClassNames = 'invert rounded-none data-[loaded=true]:opacity-60 w-4 max-w-none'
+// const iconsClassNames = 'invert rounded-none data-[loaded=true]:opacity-60 w-4 max-w-none'
 
 export default function EventCard( {event, going} : { event : EventObject, going: number } ) {
 
@@ -54,9 +54,9 @@ export default function EventCard( {event, going} : { event : EventObject, going
     let startDateArray = dayjs(event.startDate).format('D MMM, YY').split(' ')
     let endDateArray = dayjs(event.endDate).format('D MMM, YY').split(' ')
 
-    const theme = useTheme()
+    // const theme = useTheme()
 
-    const finished = dayjs(event.startDate).diff(dayjs()) <= 0
+    // const finished = dayjs(event.startDate).diff(dayjs()) <= 0
 
     if(startDateArray[2] === endDateArray[2] ) {
         startDateArray.pop()
@@ -76,7 +76,7 @@ export default function EventCard( {event, going} : { event : EventObject, going
 
     const handleCardPress = () => {
 
-        console.log("redirecting")
+        // console.log("redirecting")
 
         router.push(`./events/${event.id}`)
 
@@ -84,15 +84,17 @@ export default function EventCard( {event, going} : { event : EventObject, going
 
     useEffect(() => {
 
-        if( cardRef && cardRef.current )
+        let ref = cardRef
+
+        if( ref && ref.current )
         {
-            cardRef.current.addEventListener('click', handleCardPress, false)
+            ref.current.addEventListener('click', handleCardPress, false)
         }
 
         return () => {
-            if( cardRef && cardRef.current )
+            if( ref && ref.current )
             {
-                cardRef.current.removeEventListener('click', handleCardPress, false)
+                ref.current.removeEventListener('click', handleCardPress, false)
             }
         }
 
@@ -101,7 +103,7 @@ export default function EventCard( {event, going} : { event : EventObject, going
     return(
 
         <div className="relative w-full h-full rounded-2xl overflow-hidden">
-            <img src={`/bg_illustrations/card_bg_${random}.png`} className="absolute  object-cover"/>
+            <img src={`/bg_illustrations/card_bg_${random}.png`} alt={'bg_cover'} className="absolute object-cover"/>
             <div className="absolute top-0 left-0 w-full h-full bg-gray-700 opacity-60"></div>
             <Card className="min-h-60 w-full bg-gradient-card p-5 hover:bg-fuchsia-600 hover:bg-opacity-50" as={Button} ref={cardRef}>
                 <CardHeader>

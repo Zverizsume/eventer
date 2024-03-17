@@ -90,7 +90,7 @@ export default function GoogleMapShow({ markers } : { markers : google.maps.LatL
                             map={mapRef}
                             // icon="https://picsum.photos/64"
                         >
-                            <Image src={'/icons/locationPin.png'} height={'40px'} width={'40px'}/>
+                            <Image src={'/icons/locationPin.png'} height={'40px'} width={'40px'} alt={'location_pin'} />
                         </Marker>
 
                         )

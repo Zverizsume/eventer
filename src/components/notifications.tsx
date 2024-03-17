@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/client"
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import { useEffect, useState } from "react"
+import { v4 as uuidv4 } from "uuid";
 
 export default function Notifications() {
 
@@ -51,7 +52,7 @@ export default function Notifications() {
 
                             return(
 
-                                <DropdownItem>
+                                <DropdownItem key={uuidv4()}>
                                     {n.commit_timestamp}
                                 </DropdownItem>
 
