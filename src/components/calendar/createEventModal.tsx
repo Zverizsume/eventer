@@ -37,7 +37,7 @@ export default function CreateEventModal({ isOpen, onOpen, onClose, selectedStar
 
     const countries = [...new Set(countriesArray.map(item => item.name))]
 
-    const [ eventType, setEventType ] = useState([])
+    const [ eventType, setEventType ] = useState<string[]>([])
     const [ startDate, setStartDate ] = useState(selectedStartDate)
     const [ endDate, setEndDate ] = useState(selectedEndDate)
     const [ startTime, setStartTime ] = useState('')
