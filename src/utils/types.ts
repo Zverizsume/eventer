@@ -40,3 +40,12 @@ export type EventObject = {
     user: string
 
 }
+
+export type SeoMetadata = {
+
+    title: string,
+    description: string,
+    page_url: string,
+    image_url: string
+
+}
