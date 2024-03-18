@@ -49,3 +49,25 @@ export type SeoMetadata = {
     image_url: string
 
 }
+
+export type Notification = {
+
+    id: string,
+    user_id: string,
+    trigger_user_id: string,
+    content: string,
+    link: string,
+    created_at: string,
+    read: boolean
+
+}
+
+export type Chat = {
+
+    id?: string,
+    sender_id: string,
+    receiver_id: string,
+    message: string,
+    created_at?: string
+
+}

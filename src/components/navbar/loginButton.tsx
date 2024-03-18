@@ -24,7 +24,7 @@ const links = [
         href: '/profile',
     },
     {
-        title: 'Logaout',
+        title: 'Logout',
         key: 'logout',
     },
 
@@ -35,6 +35,8 @@ export default function LoginButton({ userData } : { userData : User | null }) {
     const [ buttonLoading, setButtonLoading ] = useState(false)
 
     const handleLogout = () => {
+
+        console.log('Logging out')
 
         setButtonLoading(true)
         logout()
@@ -91,7 +93,7 @@ export default function LoginButton({ userData } : { userData : User | null }) {
                                 return(
 
 
-                                    <DropdownItem key={link.key} className="text-danger" color="danger" onClick={handleLogout} >
+                                    <DropdownItem key={link.key} as={Button} className="text-danger" color="danger" onClick={handleLogout} >
                                         {link.title}
                                     </DropdownItem>
 

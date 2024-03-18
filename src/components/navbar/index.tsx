@@ -1,15 +1,16 @@
-'use client'
 
+
+import { getNotifications } from "@/actions";
 import Nav from "./nav";
 import { User } from '@supabase/supabase-js'
 
-export default function Navbar({ userData } : { userData : User | null } ) {
+export default async function Navbar({ userData } : { userData : User | null } ) {
 
-    // console.log('User data: ', userData)
+    const {data, error, message} = await getNotifications()
 
     return(
 
-        <Nav userData = { userData } />
+        <Nav userData={ userData } notifications={data} />
 
     )
 

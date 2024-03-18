@@ -17,6 +17,7 @@ import { useState } from "react";
 import LoginButton from "./loginButton";
 import { User } from "@supabase/supabase-js";
 import Notifications from "../notifications";
+import { Notification } from "@/utils/types";
 
 const menuItems = [
 
@@ -35,7 +36,7 @@ const menuItems = [
 
 ]
 
-export default function Nav({ userData } : { userData : User | null }) {
+export default function Nav({ userData, notifications } : { userData : User | null, notifications : Notification[] }) {
 
     const [ isMenuOpen, setIsMenuOpen ] = useState(false)
 
@@ -79,7 +80,7 @@ export default function Nav({ userData } : { userData : User | null }) {
             <ThemeSwitcher />
           </NavbarItem>
           <NavbarItem>
-            <Notifications />
+            <Notifications notifs={notifications} />
           </NavbarItem>
         </NavbarContent>
 
