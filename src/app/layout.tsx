@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Providers } from './providers'
 import { montserrat, karla } from '@/utils/fonts'
 import './globals.css'
+import { Analytics } from '@vercel/analytics/react'
 
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
         <main>
           <Providers>
             {children}
+            <Analytics />
           </Providers>
         </main>
       </body>

@@ -21,6 +21,7 @@
     "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.1",
     "@tabler/icons-react": "^2.47.0",
+    "@vercel/analytics": "^1.2.2",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
     "framer-motion": "^10.16.16",
