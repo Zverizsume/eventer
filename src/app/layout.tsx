@@ -4,7 +4,8 @@ import { montserrat, karla } from '@/utils/fonts'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/react'
 import Chat from '@/components/chat'
-import { getChatHistory } from '@/actions'
+import { getChatHistory, getUserData } from '@/actions'
+import "react-toastify/dist/ReactToastify.css";
 
 // export const metadata: Metadata = {
 //   title: 'Eventer',
@@ -18,8 +19,7 @@ export default async function RootLayout({
 }) {
 
   const { data, error, message } = await getChatHistory()
-
-  console.log('Chat data: ', data)
+  const { data : userData, error : getUserError } = await getUserData()
 
   return (
     <html lang="en">
@@ -29,7 +29,7 @@ export default async function RootLayout({
             {children}
             {
                 !error ? 
-                  <Chat chat_history={data} />
+                  <Chat chat_history={data} user={userData.user} />
                 : ''
             }
             <Analytics />

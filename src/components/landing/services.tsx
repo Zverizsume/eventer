@@ -64,7 +64,7 @@ export default function Services( ) {
 
     return (
 
-        <div className="container max-w-7xl grid grid-cols-4 gap-6">
+        <div className="container max-w-screen-lg px-5 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
 
             {
                 services.map( (s,index) => {

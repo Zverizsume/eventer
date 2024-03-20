@@ -21,7 +21,7 @@ export default function EventsList({events, attendances} : Props) {
 
     return(
 
-        <div className="container max-w-6xl">
+        <div className="container max-w-screen-lg px-5">
 
             <div className="flex flex-col gap-8 w-full py-10">
 

@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server"
 import { attendanceStatus, eventTypes } from "@/utils/types"
+import { revalidatePath } from "next/cache"
 
 interface AttendEventReturnObject {
 

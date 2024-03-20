@@ -76,9 +76,9 @@ export default function Nav({ userData, notifications } : { userData : User | nu
           <NavbarItem>
             <LoginButton userData={ userData } />
           </NavbarItem>
-          <NavbarItem>
+          {/* <NavbarItem>
             <ThemeSwitcher />
-          </NavbarItem>
+          </NavbarItem> */}
           <NavbarItem>
             <Notifications notifs={notifications} />
           </NavbarItem>

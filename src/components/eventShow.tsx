@@ -1,11 +1,15 @@
 'use client'
 
 import dayjs from "dayjs"
-import { EventObject } from "@/utils/types"
+import { attendanceStatus, EventObject } from "@/utils/types"
 import { Button, Chip, Divider, Link } from "@nextui-org/react"
 import { attendEvent } from "@/actions"
 import GoogleMapShow from "./showGoogleMap"
 import { usePathname } from 'next/navigation'
+import { User } from "@supabase/supabase-js"
+import { useEffect, useState } from "react"
+
+import { toast, ToastContainer } from 'react-toastify';
 
 type AttandanceData = {
 
@@ -15,7 +19,24 @@ type AttandanceData = {
 
 }
 
-export default function EventShow({ event, attandances } : { event : EventObject, attandances : AttandanceData}) {
+type Attandance = {
+
+    user_id: string,
+    event_id: string,
+    status: string
+
+}
+
+type AttandancePlusData = {
+    attendances: Attandance[],
+    attendanceData: AttandanceData
+}
+
+export default function EventShow({ event, attandances, user } : { event : EventObject, attandances : AttandancePlusData, user: User | null}) {
+
+    const [ isButtonLoading, setButtonLoading ] = useState(false)
+    const [ myStatus, setMyStatus ] = useState<string | null>(null)
+    const [ eventAtandances, setEventAttendences ] = useState(attandances)
 
     const pathname = usePathname()
 
@@ -45,81 +66,185 @@ export default function EventShow({ event, attandances } : { event : EventObject
             twitterString += ',' + cat 
     })
 
-    console.log('Twitter string: ', twitterString)
+    const checkMyAttendance = () => {
+
+        if( user ) {
+
+            const filter = eventAtandances.attendances.filter( att => att.user_id === user.id )
+
+            if( filter.length && myStatus !== filter[0].status ) {
+
+                setMyStatus(filter[0].status)
+
+            }
+
+        }
+
+    }
+
+    useEffect(() => {
+
+        checkMyAttendance()
+
+    },[eventAtandances])
+
+    const handleEventAttend = async () => {
+
+        if( user ) {
+
+            setButtonLoading(true)
+
+            const { success, message } = await attendEvent(event.id, event.type)
+
+            if( success ) {
+
+                toast.success( message, {
+                    position: 'bottom-center'
+                })
+
+                const updatedAttendances = {...eventAtandances}
+                updatedAttendances.attendances.push({
+                    event_id: event.id,
+                    user_id: user.id,
+                    status: event.type === 'private' ? 'pending' : 'going'
+                })
+
+                switch (event.type) {
+                    case 'public':
+                    
+                    updatedAttendances.attendanceData.going += 1
+
+                    break;
+                    case 'private':
+                    
+                    updatedAttendances.attendanceData.pending ? updatedAttendances.attendanceData.pending += 1 : ''
+
+                    break;
+                    case 'invite_only':
+                    
+                    updatedAttendances.attendanceData.going += 1
+
+                    break;
+                
+                    default:
+                        break;
+                }
+
+                setEventAttendences( updatedAttendances )
+
+            }
+            else
+                toast.error( message, {
+                    position: 'bottom-center'
+                })
+
+            checkMyAttendance()
+
+            setButtonLoading(false)
+
+        }
+
+    }
 
     return(
 
-        <div className="w-screen flex justify-center items-center flex-col gap-5 py-5">
-            <div className="container max-w-7xl flex flex-col gap-9">
-                <div className="flex flex-row justify-between">
-                    <h1 className="text-2xl">{event.title}</h1>
+        <div className="flex justify-center items-center flex-col gap-5 py-5">
+            <div className="container max-w-5xl px-6 flex flex-col gap-9">
+                <div className="flex flex-row justify-between flex-wrap">
+                
                     <div>
-                        <Link className="twitter-share-button"
-                            href={twitterString}
-                            isExternal
-                        >
-                            Tweet
-                        </Link>
-                    </div>
-                </div>
-                <div className="flex flex-row gap-3 items-stretch">
-                    <div>
-                        <p className="text-stone-400">Start date:</p>
-                        <p>{dayjs(event.startDate).format('dddd, MMMM D, YYYY')}</p>
-                    </div>
-                    <Divider className="h-auto" orientation="vertical" />
-                    <div>
-                        <p className="text-stone-400">End date:</p>
-                        <p>{dayjs(event.endDate).format('dddd, MMMM D, YYYY')}</p>
-                    </div>
-                </div>
 
-                <div className="flex flex-row gap-3 items-stretch">
-                    <div>
-                        <p className="text-stone-400">Start time:</p>
-                        <p>{event.startTime}</p>
+                    <div className="flex flex-row justify-between">
+                        <h1 className="text-2xl">{event.title}</h1>
+                        <div>
+                            <Link className="twitter-share-button"
+                                href={twitterString}
+                                isExternal
+                            >
+                                Tweet
+                            </Link>
+                        </div>
                     </div>
-                    
-                    {
-                        event.duration ?
+                    <div className="flex flex-row gap-3 items-stretch">
+                        <div>
+                            <p className="text-stone-400">Start date:</p>
+                            <p>{dayjs(event.startDate).format('dddd, MMMM D, YYYY')}</p>
+                        </div>
+                        <Divider className="h-auto" orientation="vertical" />
+                        <div>
+                            <p className="text-stone-400">End date:</p>
+                            <p>{dayjs(event.endDate).format('dddd, MMMM D, YYYY')}</p>
+                        </div>
+                    </div>
 
-                        <div className="flex flex-row gap-3 items-stretch">
-                            <Divider className="h-auto" orientation="vertical" />
-                            <div>
-                                <p className="text-stone-400">Duration:</p>
-                                <div>{event.duration}</div>
-                            </div>
+                    <div className="flex flex-row gap-3 items-stretch">
+                        <div>
+                            <p className="text-stone-400">Start time:</p>
+                            <p>{event.startTime}</p>
                         </div>
                         
-
-                        : null
-                    }
-                    {
-
-                        event.endTime ?
+                        {
+                            event.duration ?
 
                             <div className="flex flex-row gap-3 items-stretch">
                                 <Divider className="h-auto" orientation="vertical" />
                                 <div>
                                     <p className="text-stone-400">Duration:</p>
-                                    <div>{event.endTime}</div>
+                                    <div>{event.duration}</div>
                                 </div>
                             </div>
+                            
 
-                        : null
-                    }
-                </div>
+                            : null
+                        }
+                        {
 
-                <div className="flex justify-start items-center flex-row gap-2">
-                    <p>
-                        Going: {attandances.going}
-                    </p>
-                    <Button
-                        onPress={() => attendEvent(event.id, event.type)}
-                        color="success"
-                    >
-                        Attend
-                    </Button>
+                            event.endTime ?
+
+                                <div className="flex flex-row gap-3 items-stretch">
+                                    <Divider className="h-auto" orientation="vertical" />
+                                    <div>
+                                        <p className="text-stone-400">Duration:</p>
+                                        <div>{event.endTime}</div>
+                                    </div>
+                                </div>
+
+                            : null
+                        }
+                    </div>
+
+                    <div className="flex justify-start items-center flex-row gap-2">
+                        <p>
+                            Going: {eventAtandances.attendanceData.going}
+                        </p>
+                        {
+                            user ? 
+
+                                <Button
+                                    onPress={handleEventAttend}
+                                    color="success"
+                                    isDisabled={myStatus ? true : false}
+                                    isLoading={isButtonLoading}
+                                >
+                                    {myStatus ? myStatus : 'Attend'}
+                                </Button>
+
+                            : ''
+                        }
+                    </div>
+
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2">
+                            <p className="text-stone-400">Location:</p>
+                            <Link isExternal href={`https://www.google.com/maps/dir/?api=1&destination=${event.latLng}`}>{event.locationString}</Link>
+                        </div>
+                        <div className="relative h-30v rounded-xl overflow-hidden">
+                            <GoogleMapShow markers={[marker]} />
+                        </div>
+                    </div>
+
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -145,17 +270,8 @@ export default function EventShow({ event, attandances } : { event : EventObject
                     }
                     </div>
                 </div>
-
-                <div className="flex flex-col gap-2">
-                    <div className="flex flex-col gap-2">
-                        <p className="text-stone-400">Location:</p>
-                        <Link isExternal href={`https://www.google.com/maps/dir/?api=1&destination=${event.latLng}`}>{event.locationString}</Link>
-                    </div>
-                    <div className="relative h-30v rounded-xl overflow-hidden">
-                        <GoogleMapShow markers={[marker]} />
-                    </div>
-                </div>
             </div>
+            <ToastContainer />
         </div>
 
     )

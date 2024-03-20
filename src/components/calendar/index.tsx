@@ -32,7 +32,7 @@ export default function Calendar({ categories } : { categories : { title: string
             className='flex justify-center items-center py-unit-20'
         >
             <div
-                className='container max-w-screen-2xl'
+                className='container max-w-screen-lg px-5'
             >
 
                 <FullCalendar

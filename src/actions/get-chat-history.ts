@@ -49,7 +49,7 @@ export async function getChatHistory(): Promise<ChatHistoryObject> {
 
         if( getChatError ){
 
-            // console.log('Error : ', getChatError)
+            console.log('Error : ', getChatError.message)
 
             return({
                 data: [],
@@ -69,6 +69,8 @@ export async function getChatHistory(): Promise<ChatHistoryObject> {
 
     }
     else {
+
+        console.log('Error : ', getUserError?.message)
 
         return({
             data: [],

@@ -9,6 +9,7 @@ import countriesJSON from '@/utils/countries.json'
 import { v4 as uuidv4 } from 'uuid'
 import axios, { AxiosResponse } from "axios";
 import GoogleMapObject from "../googleMap";
+import RichTextEditor from "../richTextEditor";
 
 const api_key = '65e08b0dd9937343511849zsm38e938'
 
@@ -273,6 +274,8 @@ export default function CreateEventModal({ isOpen, onOpen, onClose, selectedStar
                                     })
                                 } 
                             </Select>
+
+                            <RichTextEditor />
 
                             <div className="flex flex-row gap-2 px-6 py-4 justify-end">
                                 <Button color="default" variant="light" onPress={onClose}>

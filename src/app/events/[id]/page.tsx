@@ -45,7 +45,7 @@ export default async function EventShowPage({params} : EventShowPageProps) {
             return(
                 <div className="bg-[radial-gradient(circle_at_50%_-30%,rgb(144,17,105)_20%,rgb(0,0,0)_70%)]">
                     <Navbar userData={ currentUserInfo } />
-                    <EventShow event={ data } attandances={ attandanceData } />
+                    <EventShow event={ data } attandances={ attandanceData } user={currentUserInfo} />
                 </div>
             )
         

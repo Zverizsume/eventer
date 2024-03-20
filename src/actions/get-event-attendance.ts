@@ -10,9 +10,20 @@ type AttandanceData = {
 
 }
 
+type Attandance = {
+
+    user_id: string,
+    event_id: string,
+    status: string
+
+}
+
 interface GetEventAttandanceObject {
 
-    data: AttandanceData | null,
+    data: {
+        attendances: Attandance[],
+        attendanceData: AttandanceData
+    } | null,
     success: boolean,
     message: string
 
@@ -57,7 +68,7 @@ export async function getEventAttendance( eventId : string ): Promise<GetEventAt
 
     }
 
-    if(attandances)
+    if(attandances) {
 
         attandances.forEach( att => {
             
@@ -82,11 +93,23 @@ export async function getEventAttendance( eventId : string ): Promise<GetEventAt
 
         });
 
+        return({
+
+            data: {
+                attendances: attandances,
+                attendanceData: attendanceData
+            },
+            success: true,
+            message: 'Successfuly retrieved attandances'
+
+        })
+    }
+
     return({
 
-        data: attendanceData,
+        data: null,
         success: true,
-        message: 'Successfuly retrieved attandances'
+        message: `No attendances for this event`
 
     })
 

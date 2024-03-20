@@ -28,6 +28,18 @@ const config: Config = {
         "90v": "90vh",
         "100v": "100vh",
       },
+      width: {
+        "10v": "10vw",
+        "20v": "20vw",
+        "30v": "30vw",
+        "40v": "40vw",
+        "50v": "50vw",
+        "60v": "60vw",
+        "70v": "70vw",
+        "80v": "80vw",
+        "90v": "90vw",
+        "100v": "100vw",
+      },
       fontFamily: {
         karla: ['var(--font-karla)'],
         montserrat: ['var(--font-montserrat)']
