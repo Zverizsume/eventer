@@ -14,6 +14,8 @@ export default function Notifications({notifs} : {notifs : Notification[]}) {
 
     useEffect(() => {
 
+        
+
         const channel = supabase.channel('notify').on('postgres_changes',{
             event: 'INSERT',
             schema: 'public',

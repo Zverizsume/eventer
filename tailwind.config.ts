@@ -40,6 +40,9 @@ const config: Config = {
         "90v": "90vw",
         "100v": "100vw",
       },
+      colors: {
+        "orange" : '#F66001'
+      },
       fontFamily: {
         karla: ['var(--font-karla)'],
         montserrat: ['var(--font-montserrat)']
