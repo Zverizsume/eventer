@@ -48,7 +48,7 @@ export default async function Home() {
             <div className="container max-w-screen-lg px-5 text-center">
               <p className="text-4xl text-foreground-400">
                 Do you crave <span className="text-foreground">unforgettable experiences</span>, <span className="text-foreground">thrilling adventures</span>, or simply <span className="text-foreground">connecting with like-minded individuals</span>?
-                  Look no further, because Eventer has got you covered! Whether you're an <span className="text-foreground">event organizer</span> or an <span className="text-foreground">enthusiastic attendee</span>, our app offers a <span className="text-foreground">seamless platform</span> to <span className="text-orange">create</span>, <span className="text-orange">discover</span>, and <span className="text-orange">attend</span> a diverse range of events.
+                  Look no further, because Eventer has got you covered! Whether you&apos;re an <span className="text-foreground">event organizer</span> or an <span className="text-foreground">enthusiastic attendee</span>, our app offers a <span className="text-foreground">seamless platform</span> to <span className="text-orange">create</span>, <span className="text-orange">discover</span>, and <span className="text-orange">attend</span> a diverse range of events.
               </p>
               </div>
           </section>
