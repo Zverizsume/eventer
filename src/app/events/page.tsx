@@ -27,8 +27,8 @@ export default async function ShowEventsPage() {
     const currentUserInfo = userData.data.user
 
     return (
-        <div className="min-h-screen bg-[radial-gradient(circle_at_50%_-30%,rgb(144,17,105)_20%,rgb(0,0,0)_70%)]">
-            <img src={'/bg_lines.svg'} alt={'bg_lines'} className="absolute z-1 top-0 left-0 w-100v h-100v object-cover" />
+        <div className="min-h-screen">
+            {/* <img src={'/bg_lines.svg'} alt={'bg_lines'} className="fixed z-1 top-0 left-0 w-100v h-[100%] object-cover" /> */}
             <Navbar userData={currentUserInfo} />
             <div className="flex justify-center items-center">
                 <Suspense fallback={<LoadingEvent />} >

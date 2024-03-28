@@ -1,8 +1,8 @@
 'use client'
 
 import { Image } from "@nextui-org/react"
-import { useScroll, motion, MotionValue, useTransform } from "framer-motion"
-import { useRef } from "react"
+import { useScroll, motion, MotionValue, useTransform, useSpring, circInOut } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
 import { v4 } from "uuid"
 
 const services = [
@@ -41,24 +41,23 @@ const services = [
 
 function Service ( {title, desc, index, scrollYProgress} : {title: string, desc: string, index: number, scrollYProgress: MotionValue<number>} ) {
 
-    const y1 = useTransform(scrollYProgress,[0, 0.25, 0.5, 0.75, 1], ['50%', '0%', '0%', '0%', '0%'])
+    const y  = useTransform(scrollYProgress,[0, 0.25, 0.5, 0.75, 1], ['0%', '0%', '0%', '0%', '0%'])
+    const y1 = useTransform(scrollYProgress,[0, 0.25, 0.5, 0.75, 1], ['50%', '0%', '0%', '0%', '0%'], { ease: circInOut })
     const y2 = useTransform(scrollYProgress,[0, 0.25, 0.5, 0.75, 1], ['50%', '50%', '0%', '0%', '0%'])
     const y3 = useTransform(scrollYProgress,[0, 0.25, 0.5, 0.75, 1], ['50%', '50%', '50%', '0%', '0%'])
 
-    const o1 = useTransform(scrollYProgress,[0, 0.25, 0.5, 0.75, 1], ['50%', '100%', '100%', '100%', '100%'])
-    const o2 = useTransform(scrollYProgress,[0, 0.25, 0.5, 0.75, 1], ['50%', '50%', '100%', '100%', '100%'])
-    const o3 = useTransform(scrollYProgress,[0, 0.25, 0.5, 0.75, 1], ['50%', '50%', '50%', '100%', '100%'])
+    const y4 = useSpring(scrollYProgress, { stiffness: 1000, damping: 10 })
 
     return(
-        <motion.div style={ index === 1 ? {y:y1, opacity:o1 } : index === 2 ? {y:y2, opacity:o2} : index === 3 ? {y:y3, opacity:o3} : {}} className={`sticky top-0 h-100v border-l-4 p-8 border-orange ${index===3? 'bg-orange' : ''} flex items-center `}>
+        <motion.div style={ index === 1 ? {y:y1} : index === 2 ? {y:y2} : index === 3 ? {y:y3} : {y}}  className={`sticky top-0 h-100v border-l-4 p-8 border-orange ${index===3? 'bg-orange' : ''} flex items-center `}>
 
-            <img src={index === 1 ? '/icons/discover.png' : index === 2 ? '/icons/attend.png' : index === 3 ? '/icons/connect.png' : '/icons/create.png'} className="absolute top-4 right-4 invert" height={'30px'} width={'30px'} />
+            <img src={index === 1 ? '/icons/discover.png' : index === 2 ? '/icons/attend.png' : index === 3 ? '/icons/connect.png' : '/icons/create.png'} className={`absolute top-4 right-4 ${ index !== 3 ? 'invert' : ''}`} height={'30px'} width={'30px'} />
 
             <div className={`flex flex-col gap-5`}>
 
                 <h5 className='text-5xl'>{title}</h5>
 
-                <p className="max-w-xl text-stone-300 text-md">
+                <p className={`max-w-lg px-5 ${ index === 3 ? 'text-black' : 'text-foreground-600' } text-lg`}>
                     {desc}
                 </p>
 
@@ -74,34 +73,62 @@ export default function Services( ) {
 
     const ref = useRef(null)
 
+    const [ lineWidth, setLineWidth ] = useState('75%')
+    const [ leftPercent, setLeftPercent ] = useState('30%')
+
     const { scrollYProgress } = useScroll({
         target: ref,
-        offset: ["start start", "end start"],
-        smooth: 1
+        offset: ["start start", "end end"],
+        smooth: 500,
     })
 
+    const x = useTransform(scrollYProgress,[0, 0.25, 0.5, 0.75, 1], ['75%', '50%', '25%', '0%', '0%'])
+
+    useEffect(() => {
+
+        function updateWidth() {
+            
+            let widthPrecentString = x.get()
+            widthPrecentString.replace('%','')
+
+            const widthPrecentNumber = parseFloat(widthPrecentString)
+
+            setLineWidth(x.get())
+            setLeftPercent(`${ widthPrecentNumber <= 50 ? 100 - widthPrecentNumber : widthPrecentNumber}%`)
+        }
+
+        const unsubscribeX = x.on("change", updateWidth)
+
+        return () => {
+            unsubscribeX()
+        }
+
+    },[])
+
     return (
+        <section className="max-w-full" ref={ref}>
+            <motion.div style={{ width: lineWidth, left: leftPercent }} className="sticky top-1 bg-white h-[1px]"></motion.div>
+            <motion.div  className="border-b-4 border-orange relative px-0 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-0 h-[calc(200vh)] w-full">
+                
+                <motion.div className="service"  >
+                    <Service scrollYProgress={scrollYProgress} index={0} title={services[0].title} desc={services[0].desc} />
+                </motion.div>
+                {
+                    services.map( (s,index) => {
 
-        <motion.div  className="border-b-4 border-orange relative px-0 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-0 h-[calc(400vh)] w-full">
+                        if( index != 0 )
 
-            <motion.div ref={ref} >
-                <Service scrollYProgress={scrollYProgress} index={0} title={services[0].title} desc={services[0].desc} />
+                        return(
+
+                            <Service scrollYProgress={scrollYProgress} index={index} key={v4()} title={s.title} desc={s.desc} />
+
+                        )
+
+                    })
+                }
+
             </motion.div>
-            {
-                services.map( (s,index) => {
-
-                    if( index != 0 )
-
-                    return(
-
-                        <Service scrollYProgress={scrollYProgress} index={index} key={v4()} title={s.title} desc={s.desc} />
-
-                    )
-
-                })
-            }
-
-        </motion.div>
+        </section>
 
     )
 

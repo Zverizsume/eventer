@@ -105,7 +105,7 @@ export default function EventCard( {event, going} : { event : EventObject, going
         <div className="relative w-full h-full rounded-2xl overflow-hidden">
             <img src={`/bg_illustrations/card_bg_${random}.png`} alt={'bg_cover'} className="absolute object-cover"/>
             <div className="absolute top-0 left-0 w-full h-full bg-gray-700 opacity-60"></div>
-            <Card className="min-h-60 w-full bg-gradient-card p-5 hover:bg-fuchsia-600 hover:bg-opacity-50" as={Button} ref={cardRef}>
+            <Card className="min-h-60 w-full bg-gradient-card p-5 hover:bg-[#AE4301] hover:bg-opacity-50" as={Button} ref={cardRef}>
                 <CardHeader>
                     <div className="flex flex-col justify-center items-start gap-1">
                         {/* <Image src={'/icons/date.png'} className={iconsClassNames} /> */}

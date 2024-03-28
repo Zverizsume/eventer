@@ -3,7 +3,7 @@
 import { createEvent } from "@/actions";
 import { Autocomplete, AutocompleteItem, Avatar, Button, Chip, Input, Modal, ModalBody, ModalContent, ModalHeader, Select, SelectItem, SelectedItems, Selection, Textarea, useDisclosure } from "@nextui-org/react";
 import dayjs from "dayjs";
-import { ChangeEvent, Key, useEffect, useState } from "react";
+import { ChangeEvent, Key, useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import countriesJSON from '@/utils/countries.json'
 import { v4 as uuidv4 } from 'uuid'
@@ -49,6 +49,8 @@ export default function CreateEventModal({ isOpen, onOpen, onClose, selectedStar
     const [ latLng, setLatLng ] = useState<google.maps.LatLngLiteral | null>(null)
     const [ locationString, setLocationString ] = useState('')
     const [ country, setCountry ] = useState<string | null>(null)
+
+    const [ isButtonLoading, setIsButtonLoading ] = useState(false)
 
     const [ settingMapLocation, setSettingMapLocation ] = useState(false)
 
@@ -102,7 +104,7 @@ export default function CreateEventModal({ isOpen, onOpen, onClose, selectedStar
 
     const handleMapModalClose = async () => {
 
-        console.log('Map modal is closing')
+        // console.log('Map modal is closing')
 
         if( latLng ) {
 
@@ -140,17 +142,23 @@ export default function CreateEventModal({ isOpen, onOpen, onClose, selectedStar
 
     }
 
+    const handleFormSubmit = () => {
+
+        setIsButtonLoading(true)
+
+    }
+
     return(
 
         <>
-            <Modal size="xl" backdrop={'blur'} isOpen={isOpen} onClose={onClose}>
+            <Modal size="5xl" backdrop={'blur'} isOpen={isOpen} onClose={onClose}>
                 <ModalContent>
                     <ModalHeader>
                         Create new Event
                     </ModalHeader>
                     <ModalBody>
 
-                        <form action={action} className="flex flex-col gap-3">
+                        <form onSubmit={handleFormSubmit} action={action} className="flex flex-col gap-3">
                         
                             <Select
                                 name={'type'}
@@ -219,7 +227,7 @@ export default function CreateEventModal({ isOpen, onOpen, onClose, selectedStar
                                 }
                             </Autocomplete>
 
-                            <Input hidden type='text' name={'latLng'} value={latLngString} />
+                            <Input hidden className="hidden" type='text' name={'latLng'} value={latLngString} />
 
                             <Input
                                 isReadOnly
@@ -249,7 +257,7 @@ export default function CreateEventModal({ isOpen, onOpen, onClose, selectedStar
                                 onSelectionChange={setValue}
                                 renderValue={(items : SelectedItems<Category>) => {
                                     return (
-                                      <div className="flex flex-wrap gap-2 py-2">
+                                      <div className="flex flex-wrap gap-2 py-4">
                                         {items.map((cat) => (
                                           <Chip key={cat.key} isCloseable>{cat.textValue}</Chip>
                                         ))}
@@ -275,13 +283,13 @@ export default function CreateEventModal({ isOpen, onOpen, onClose, selectedStar
                                 } 
                             </Select>
 
-                            <RichTextEditor />
+                            {/* <RichTextEditor /> */}
 
                             <div className="flex flex-row gap-2 px-6 py-4 justify-end">
                                 <Button color="default" variant="light" onPress={onClose}>
                                     Discard
                                 </Button>
-                                <Button color="success" type="submit">
+                                <Button color="success" type="submit" isLoading={isButtonLoading}>
                                     Create
                                 </Button>
                             </div>

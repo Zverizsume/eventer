@@ -1,4 +1,4 @@
-import { getCategories, getUserData } from "@/actions";
+import { getCategories, getEvents, getUserData } from "@/actions";
 import Calendar from "@/components/calendar";
 import Navbar from "@/components/navbar";
 import { Metadata } from "next";
@@ -32,6 +32,7 @@ export default async function createEvent() {
     const currentUserInfo = userData.data.user
 
     const { data : categoriesData, error : getCategoriesError, message : getCategoriesMessage } = await getCategories()
+    const { events } = await getEvents()
 
     if (!currentUserInfo) {
 
@@ -49,9 +50,9 @@ export default async function createEvent() {
 
     return (
 
-        <div className="bg-[radial-gradient(circle_at_50%_-30%,rgb(144,17,105)_20%,rgb(0,0,0)_70%)]">
+        <div className="">
             <Navbar userData={ currentUserInfo } />
-            <Calendar categories={categoriesData === null ? [] : categoriesData} />
+            <Calendar categories={categoriesData === null ? [] : categoriesData} myEvents={events} />
         </div>
 
     )

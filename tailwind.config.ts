@@ -14,7 +14,7 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'gradient-card' : 'linear-gradient(20deg, rgba(144,17,105,1) 10%, rgba(0,0,0,0) 60%)'
+        'gradient-card' : 'linear-gradient(20deg, rgba(174,67,1,1) 10%, rgba(0,0,0,0) 60%)'
       },
       height: {
         "10v": "10vh",
@@ -41,7 +41,7 @@ const config: Config = {
         "100v": "100vw",
       },
       colors: {
-        "orange" : '#F66001'
+        "orange" : '#F66001' // rgb(246, 96, 1)
       },
       fontFamily: {
         karla: ['var(--font-karla)'],

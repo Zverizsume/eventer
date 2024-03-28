@@ -2,7 +2,7 @@
 
 import dayjs from "dayjs"
 import { attendanceStatus, EventObject } from "@/utils/types"
-import { Button, Chip, Divider, Link } from "@nextui-org/react"
+import { Avatar, Button, Chip, Divider, Link } from "@nextui-org/react"
 import { attendEvent } from "@/actions"
 import GoogleMapShow from "./showGoogleMap"
 import { usePathname } from 'next/navigation'
@@ -150,12 +150,21 @@ export default function EventShow({ event, attandances, user } : { event : Event
 
         <div className="flex justify-center items-center flex-col gap-5 py-5">
             <div className="container max-w-5xl px-6 flex flex-col gap-9">
-                <div className="flex flex-row justify-between flex-wrap">
+                <div className="grid grid-cols-3 gap-10">
                 
-                    <div>
+                    <div className="flex flex-col gap-7 col-span-2">
 
                     <div className="flex flex-row justify-between">
-                        <h1 className="text-2xl">{event.title}</h1>
+                        <div className="flex flex-col gap-4">
+                            <h1 className="text-2xl">{event.title}</h1>
+                            <div className="flex flex-row gap-4 justify-center items-center">
+                                <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
+                                <div>
+                                    <p className="text-foreground-500">Hosted by</p>
+                                    <p>John Doe, Jane Doe</p>
+                                </div>
+                            </div>
+                        </div>
                         <div>
                             <Link className="twitter-share-button"
                                 href={twitterString}
@@ -165,52 +174,54 @@ export default function EventShow({ event, attandances, user } : { event : Event
                             </Link>
                         </div>
                     </div>
-                    <div className="flex flex-row gap-3 items-stretch">
-                        <div>
-                            <p className="text-stone-400">Start date:</p>
-                            <p>{dayjs(event.startDate).format('dddd, MMMM D, YYYY')}</p>
+                    <div className="flex flex-col gap-4 rounded-xl p-5 bg-[linear-gradient(to_bottom,#141414_0%,#1e1e1e_100%)]">
+                        <div className="flex flex-row gap-3 items-stretch">
+                            <div>
+                                <p className="text-stone-400">Start date:</p>
+                                <p>{dayjs(event.startDate).format('dddd, MMMM D, YYYY')}</p>
+                            </div>
+                            <Divider className="h-auto" orientation="vertical" />
+                            <div>
+                                <p className="text-stone-400">End date:</p>
+                                <p>{dayjs(event.endDate).format('dddd, MMMM D, YYYY')}</p>
+                            </div>
                         </div>
-                        <Divider className="h-auto" orientation="vertical" />
-                        <div>
-                            <p className="text-stone-400">End date:</p>
-                            <p>{dayjs(event.endDate).format('dddd, MMMM D, YYYY')}</p>
-                        </div>
-                    </div>
 
-                    <div className="flex flex-row gap-3 items-stretch">
-                        <div>
-                            <p className="text-stone-400">Start time:</p>
-                            <p>{event.startTime}</p>
-                        </div>
-                        
-                        {
-                            event.duration ?
-
-                            <div className="flex flex-row gap-3 items-stretch">
-                                <Divider className="h-auto" orientation="vertical" />
-                                <div>
-                                    <p className="text-stone-400">Duration:</p>
-                                    <div>{event.duration}</div>
-                                </div>
+                        <div className="flex flex-row gap-3 items-stretch">
+                            <div>
+                                <p className="text-stone-400">Start time:</p>
+                                <p>{event.startTime}</p>
                             </div>
                             
-
-                            : null
-                        }
-                        {
-
-                            event.endTime ?
+                            {
+                                event.duration ?
 
                                 <div className="flex flex-row gap-3 items-stretch">
                                     <Divider className="h-auto" orientation="vertical" />
                                     <div>
                                         <p className="text-stone-400">Duration:</p>
-                                        <div>{event.endTime}</div>
+                                        <div>{event.duration}</div>
                                     </div>
                                 </div>
+                                
 
-                            : null
-                        }
+                                : null
+                            }
+                            {
+
+                                event.endTime ?
+
+                                    <div className="flex flex-row gap-3 items-stretch">
+                                        <Divider className="h-auto" orientation="vertical" />
+                                        <div>
+                                            <p className="text-stone-400">End Time:</p>
+                                            <div>{event.endTime}</div>
+                                        </div>
+                                    </div>
+
+                                : null
+                            }
+                        </div>
                     </div>
 
                     <div className="flex justify-start items-center flex-row gap-2">
@@ -235,12 +246,12 @@ export default function EventShow({ event, attandances, user } : { event : Event
 
                     </div>
 
-                    <div className="flex flex-col gap-2">
-                        <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 rounded-xl overflow-hidden bg-[linear-gradient(to_bottom,#141414_0%,#1e1e1e_100%)]">
+                        <div className="flex flex-col gap-2 p-5">
                             <p className="text-stone-400">Location:</p>
                             <Link isExternal href={`https://www.google.com/maps/dir/?api=1&destination=${event.latLng}`}>{event.locationString}</Link>
                         </div>
-                        <div className="relative h-30v rounded-xl overflow-hidden">
+                        <div className="relative h-30v">
                             <GoogleMapShow markers={[marker]} />
                         </div>
                     </div>

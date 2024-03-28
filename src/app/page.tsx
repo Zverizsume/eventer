@@ -1,9 +1,10 @@
 import { getUserData } from "@/actions";
 import Features from "@/components/landing/features";
+import ScrollProgres from "@/components/landing/scrollProgress";
 import Services from "@/components/landing/services";
 
 import Navbar from "@/components/navbar";
-import { Image } from "@nextui-org/react";
+import { Button, Image, Link } from "@nextui-org/react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default async function Home() {
   return (
     <>
       <div className=" pb-20">
+        <ScrollProgres />
         <Navbar userData = { currentUserInfo } />
         <div className="flex flex-col justify-center items-center gap-20">
           <section
@@ -34,13 +36,16 @@ export default async function Home() {
           >
             <div style={{ backgroundImage: 'url(/static_noise.gif)' }} className="absolute w-full h-full top-0 left-0 overflow-hidden opacity-10"></div>
             <div className="absolute w-full h-full bg-gradient-to-b from-slate-50 to-black opacity-30"></div>
-            <div className="relative container max-w-screen-lg z-1 px-5 text-start">
+            <div className="relative container max-w-screen-lg flex flex-col gap-8 justify-center items-start z-1 px-5 text-start">
               <h1 className="text-6xl">
-                Welcome to Eventer
+                All in one solution <br/> for event
               </h1>
-              <h2 className="text-lg">
-                Your Ultimate Event Planning and Attendance App
-              </h2>
+              <div className="flex flex-row gap-5 justify-start items-center">
+                <Button as={Link} href={'/create_event'} className="bg-orange font-medium text-black text-4xl min-w-0 w-auto p-4 h-auto">planning</Button>
+                <Button as={Link} href={'/events'} className="text-4xl font-medium bg-orange text-black min-w-0 w-auto p-4 h-auto">
+                  attendance
+                </Button>
+              </div>
             </div>
           </section>
         

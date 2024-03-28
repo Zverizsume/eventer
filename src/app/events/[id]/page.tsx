@@ -43,7 +43,7 @@ export default async function EventShowPage({params} : EventShowPageProps) {
         if( success && attandanceData )
 
             return(
-                <div className="bg-[radial-gradient(circle_at_50%_-30%,rgb(144,17,105)_20%,rgb(0,0,0)_70%)]">
+                <div className="min-h-screen">
                     <Navbar userData={ currentUserInfo } />
                     <EventShow event={ data } attandances={ attandanceData } user={currentUserInfo} />
                 </div>
