@@ -4,7 +4,7 @@ import ScrollProgres from "@/components/landing/scrollProgress";
 import Services from "@/components/landing/services";
 
 import Navbar from "@/components/navbar";
-import { Button, Image, Link } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,9 +12,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/'
   },
-  title: 'Home / Eventer',
-  description: `Do you crave unforgettable experiences, thrilling adventures, or simply connecting with like-minded individuals? Look no further, because Eventer has got you covered!
-  Whether you're an event organizer or an enthusiastic attendee, our app offers a seamless platform to create, discover, and attend a diverse range of events.`,
+  title: 'Home | Eventer',
+  description: "Do you crave unforgettable experiences, thrilling adventures, or simply connecting with like-minded individuals? Look no further, because Eventer has got you covered! Whether you're an event organizer or an enthusiastic attendee, our app offers a seamless platform to create, discover, and attend a diverse range of events.",
   openGraph: {
     images: ['/bg_illustrations/card_bg_1.png']
   }
