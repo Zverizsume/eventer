@@ -39,7 +39,9 @@ type EventObject = {
     locationString: string,
     categories: string[],
     description: string,
-    user: string
+    user: string,
+    frequency: string,
+    coverImageUrl: string
 
 }
 
@@ -66,6 +68,9 @@ interface CreateEventFormState {
 }
 
 //: Promise<CreateEventFormState>
+
+const STORAGE_PATH = process.env.NEXT_PUBLIC_STORAGE_PATH
+const BUCKET_NAME = 'event_cover_images/'
 
 export async function createEvent( formState : CreateEventFormState, formData : FormData ): Promise<CreateEventFormState> {
 
@@ -99,6 +104,8 @@ export async function createEvent( formState : CreateEventFormState, formData : 
     const locationString = formData.get('locationString') as string
     const categories = formData.getAll('categories') as string[]
     const description = formData.get('description') as string
+    const eventFrequency = formData.get('eventFrequency') as string
+    const coverImageFile = formData.get('coverImage') as File
 
     let newEvent : EventObject
 
@@ -116,7 +123,30 @@ export async function createEvent( formState : CreateEventFormState, formData : 
         locationString: locationString ? locationString : '',
         categories: categories ? categories : [],
         description: description ? description : '',
-        user: data.user.id
+        user: data.user.id,
+        frequency: eventFrequency,
+        coverImageUrl: ''
+
+    }
+
+    if( coverImageFile.size > 0 ) {
+
+        const { data: uploadImageData, error: uploadImageError } = await supabase.storage.from('event_cover_images').upload(coverImageFile.name, coverImageFile)
+
+        if( uploadImageError )
+        {
+            return {
+
+                errors: {
+    
+                    _form: [`Error uploading image: ${uploadImageError.message}`]
+    
+                }
+    
+            }
+        }
+
+        newEvent.coverImageUrl = STORAGE_PATH + BUCKET_NAME + uploadImageData.path
 
     }
 
@@ -124,22 +154,22 @@ export async function createEvent( formState : CreateEventFormState, formData : 
 
     let event : EventObject
     
-    const { data : insertData, error : insertError, status, statusText } = await supabase.from('event').insert(newEvent).select()
+    const { data : insertEventData, error : insertEventError, status, statusText } = await supabase.from('event').insert(newEvent).select()
 
-    if( insertError )
+    if( insertEventError )
     {
 
         return{
             errors: {
 
-                _form: [insertError.message]
+                _form: [insertEventError.message]
 
             }
         }
 
     }
 
-    event = insertData[0]
+    event = insertEventData[0]
 
     revalidatePath('/events')
     redirect(`/events/${event.id}`)

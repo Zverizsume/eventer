@@ -18,9 +18,27 @@ export const metadata: Metadata = {
     }
 }
 
+type Filter = {
+
+    field: string
+    values : any[]
+
+}
+
 export default async function ShowEventsPage() {
 
-    const { events, error, message : getEventsMessage } = await getEvents()
+    const filter: Filter[] = [
+        {
+            field: 'limit',
+            values: ['10']
+        },
+        {
+            field: 'order',
+            values: ['l']
+        }
+    ]
+
+    const { events, error, message : getEventsMessage } = await getEvents(filter)
     const { data : eventsAttendanceData, message : getEventsAttendancesMessage, success } = await getEventsAttendance()
 
     const userData = await getUserData()
@@ -28,7 +46,6 @@ export default async function ShowEventsPage() {
 
     return (
         <div className="min-h-screen">
-            {/* <img src={'/bg_lines.svg'} alt={'bg_lines'} className="fixed z-1 top-0 left-0 w-100v h-[100%] object-cover" /> */}
             <Navbar userData={currentUserInfo} />
             <div className="flex justify-center items-center">
                 <Suspense fallback={<LoadingEvent />} >

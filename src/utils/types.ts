@@ -37,6 +37,8 @@ export type EventObject = {
     locationString: string,
     categories: string[],
     description: string,
+    frequency: string,
+    coverImageUrl: string,
     user: string
 
 }

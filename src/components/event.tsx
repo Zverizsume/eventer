@@ -103,7 +103,11 @@ export default function EventCard( {event, going} : { event : EventObject, going
     return(
 
         <div className="relative w-full h-full rounded-2xl overflow-hidden">
-            <img src={`/bg_illustrations/card_bg_${random}.png`} alt={'bg_cover'} className="absolute object-cover"/>
+            {
+                event.coverImageUrl ?
+                    <img src={event.coverImageUrl} alt={'bg_cover'} className="absolute object-cover h-[100%] w-[100%]"/>
+                : ''
+            }
             <div className="absolute top-0 left-0 w-full h-full bg-gray-700 opacity-60"></div>
             <Card className="min-h-60 w-full bg-gradient-card p-5 hover:bg-[#AE4301] hover:bg-opacity-50" as={Button} ref={cardRef}>
                 <CardHeader>

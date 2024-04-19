@@ -1,4 +1,4 @@
-import { getCategories, getEvents, getUserData } from "@/actions";
+import { getCategories, getCalendarEvents, getUserData } from "@/actions";
 import Calendar from "@/components/calendar";
 import Navbar from "@/components/navbar";
 import { Metadata } from "next";
@@ -32,7 +32,7 @@ export default async function createEvent() {
     const currentUserInfo = userData.data.user
 
     const { data : categoriesData, error : getCategoriesError, message : getCategoriesMessage } = await getCategories()
-    const { events } = await getEvents()
+    const { events } = await getCalendarEvents()
 
     if (!currentUserInfo) {
 

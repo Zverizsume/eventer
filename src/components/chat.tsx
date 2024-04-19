@@ -1,9 +1,8 @@
 "use client"
 
-import { getUsersInfoByIds, sendMessage, getChatHistory } from "@/actions"
+import { sendMessage, getChatHistory } from "@/actions"
 import { createClient } from "@/utils/supabase/client"
-import { Chat } from "@/utils/types"
-import { Accordion, AccordionItem, Button, Divider, Input, Kbd, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
+import { Accordion, AccordionItem, Button, Divider, Input, Kbd } from "@nextui-org/react"
 import { User } from "@supabase/supabase-js"
 import dayjs from "dayjs"
 import { useEffect, useRef, useState } from "react"
